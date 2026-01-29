@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <script src="pokemon.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <title>Pokédex</title>
+</head>
+
+<body>
+    <ol id="liste1">
+    </ol>
+    <div class="search-container">
+        <label for="searchInput">Rechercher un Pokémon :</label>
+        <input type="text" id="searchInput" class="search-input" placeholder="Ex: Pikachu, Salamèche, Carapuce...">
+        <div id="searchResults" class="search-results"></div>
+    </div>
+    <label for="liste2">Ou choisir dans la liste : </label>
+    <select class="select" id="liste2"></select>
+    <div id="detail"></div>
+    <div id="model-3d-container">
+        <h3>Modèle 3D</h3>
+        <div id="model-3d"></div>
+    </div>
+    <div id="evolution-container">
+        <h3>Lignée d'évolution</h3>
+        <div id="evolution-chain"></div>
+    </div>
+    <div id="nomsDansAutresLangue">
+    </div>
+</body>
+
+</html>

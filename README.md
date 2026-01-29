@@ -19,7 +19,7 @@ This project pulls data from the PokéAPI and displays detailed information abou
 ## Project structure
 
 ```
-├── poke.html       # Main HTML file
+├── index.html      # Main HTML file
 ├── pokemon.js      # All the JavaScript logic and API calls
 └── main.css        # Styling with CSS variables and animations
 ```

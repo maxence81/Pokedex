@@ -4,16 +4,16 @@ function toggleExtraInfo(element) {
     const extraInfo = element.nextElementSibling;
     const arrowIcon = element.querySelector('.arrow-icon');
     const arrowText = element.querySelector('.arrow-text');
-    
+
     if (extraInfo.style.display === 'none') {
         extraInfo.style.display = 'block';
         arrowIcon.textContent = '▲';
-        arrowText.textContent = 'Moins d\'infos';
+        arrowText.textContent = 'Less info';
         element.classList.add('expanded');
     } else {
         extraInfo.style.display = 'none';
         arrowIcon.textContent = '▼';
-        arrowText.textContent = 'Plus d\'infos';
+        arrowText.textContent = 'More info';
         element.classList.remove('expanded');
     }
 }
@@ -25,19 +25,17 @@ async function loadFrenchPokemonNames() {
     if (pokemonFrenchNames.length > 0 || isLoadingFrenchNames) return pokemonFrenchNames;
 
     isLoadingFrenchNames = true;
-    console.log('Chargement des noms français...');
+    console.log('Loading names...');
 
     try {
-        // Charger tous les Pokémon species
         const response = await fetch('https://pokeapi.co/api/v2/pokemon-species/?limit=1500');
         const data = await response.json();
 
-        // Charger les détails de chaque espèce pour obtenir le nom français
         const promises = data.results.map(async (species, index) => {
             try {
                 const speciesResponse = await fetch(species.url);
                 const speciesData = await speciesResponse.json();
-                const frenchName = speciesData.names.find(n => n.language.name === 'fr');
+                const frenchName = speciesData.names.find(n => n.language.name === 'en');
                 return {
                     id: speciesData.id,
                     nameFr: frenchName ? frenchName.name : species.name,
@@ -57,7 +55,7 @@ async function loadFrenchPokemonNames() {
 
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
-                searchInput.placeholder = `Chargement... ${pokemonFrenchNames.length} Pokémon`;
+                searchInput.placeholder = `Loading... ${pokemonFrenchNames.length} Pokémon`;
             }
         }
 
@@ -65,14 +63,14 @@ async function loadFrenchPokemonNames() {
 
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
-            searchInput.placeholder = 'Ex: Pikachu, Salamèche, Carapuce...';
+            searchInput.placeholder = 'Ex: Pikachu, Charmander, Squirtle...';
         }
 
-        console.log('Noms français chargés:', pokemonFrenchNames.length);
+        console.log('Names loaded:', pokemonFrenchNames.length);
         isLoadingFrenchNames = false;
         return pokemonFrenchNames;
     } catch (error) {
-        console.log('Erreur chargement noms français:', error);
+        console.log('Error loading names:', error);
         isLoadingFrenchNames = false;
         return [];
     }
@@ -86,7 +84,7 @@ function searchPokemonByFrenchName(query) {
     return pokemonFrenchNames.filter(pokemon => {
         const normalizedName = pokemon.nameFr.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         return normalizedName.includes(normalizedQuery);
-    }).slice(0, 10); 
+    }).slice(0, 10);
 }
 
 function displaySearchResults(results) {
@@ -133,11 +131,11 @@ function loadPokemon3DData() {
         .then(response => response.json())
         .then(data => {
             pokemon3DData = data.pokemon || data;
-            console.log('Données 3D chargées:', pokemon3DData.length, 'Pokémon');
+            console.log('3D data loaded:', pokemon3DData.length, 'Pokémon');
             return pokemon3DData;
         })
         .catch(error => {
-            console.log('Erreur chargement API 3D:', error);
+            console.log('Error loading 3D API:', error);
             return null;
         });
 }
@@ -147,7 +145,6 @@ function get3DModel(pokemonId) {
 
     const pokemon = pokemon3DData.find(p => p.id === pokemonId);
     if (pokemon && pokemon.forms && pokemon.forms.length > 0) {
-        // Retourner la forme "regular" par défaut
         const regularForm = pokemon.forms.find(f => f.formName === 'regular');
         return regularForm || pokemon.forms[0];
     }
@@ -167,7 +164,7 @@ function display3DModel(pokemonId, pokemonName) {
         container.innerHTML = `
             <model-viewer
                 src="${model.model}"
-                alt="Modèle 3D de ${pokemonName}"
+                alt="3D Model of ${pokemonName}"
                 auto-rotate
                 camera-controls
                 shadow-intensity="1"
@@ -180,7 +177,7 @@ function display3DModel(pokemonId, pokemonName) {
                 </div>
             </model-viewer>
             <p style="text-align: center; margin-top: 10px; color: #666; font-size: 0.9em;">
-                ${model.name || pokemonName} - Glissez pour faire pivoter
+                ${model.name || pokemonName} - Drag to rotate
             </p>
         `;
     } else {
@@ -221,7 +218,7 @@ function getPokemons2() {
         .then((dataJSON) => {
             console.log(dataJSON)
             let pokemon = dataJSON.results;
-            let listPokemonHtml = "";
+            let listPokemonHtml = "<option value='' selected disabled>Select a Pokémon</option>";
 
             for (let i = 0; i < pokemon.length; i++) {
                 listPokemonHtml += "<option value='" + pokemon[i].url + "'>" + pokemon[i].name + "</option>";
@@ -246,7 +243,7 @@ function fetchDisplayPokemon(url) {
             const type = dataJSON.types[0].type.name;
             const cardAccent = `var(--type-${type})`;
 
-            const typesHtml = dataJSON.types.map(t => 
+            const typesHtml = dataJSON.types.map(t =>
                 `<span class="pokemon-type" style="background-color: var(--type-${t.type.name})">${t.type.name}</span>`
             ).join('');
 
@@ -260,8 +257,8 @@ function fetchDisplayPokemon(url) {
                 </div>
             `).join('');
 
-            const abilitiesHtml = dataJSON.abilities.slice(0, 6).map(a => 
-                `<span class="pokemon-ability">${a.ability.name}${a.is_hidden ? ' (caché)' : ''}</span>`
+            const abilitiesHtml = dataJSON.abilities.slice(0, 6).map(a =>
+                `<span class="pokemon-ability">${a.ability.name}${a.is_hidden ? ' (hidden)' : ''}</span>`
             ).join('');
 
             let htmlContent = `
@@ -269,12 +266,12 @@ function fetchDisplayPokemon(url) {
                     <h1 class="name"> ${dataJSON.name}</h1>
                     <img src="${dataJSON.sprites.other.home.front_default}" alt="${dataJSON.name}">
                     <ul class="pokemon-info">
-                        <li><strong>${dataJSON.weight / 10} kg</strong>Poids</li>
-                        <li><strong>${dataJSON.height / 10} m</strong>Taille</li>
+                        <li><strong>${dataJSON.weight / 10} kg</strong>Weight</li>
+                        <li><strong>${dataJSON.height / 10} m</strong>Height</li>
                     </ul>
                     <div class="expand-arrow" onclick="toggleExtraInfo(this)">
                         <span class="arrow-icon">▼</span>
-                        <span class="arrow-text">Plus d'infos</span>
+                        <span class="arrow-text">More info</span>
                     </div>
                     <div class="extra-info" style="display: none;">
                         <div class="info-section">
@@ -282,11 +279,11 @@ function fetchDisplayPokemon(url) {
                             <div class="types-container">${typesHtml}</div>
                         </div>
                         <div class="info-section">
-                            <h4>Statistiques</h4>
+                            <h4>Stats</h4>
                             <div class="stats-container">${statsHtml}</div>
                         </div>
                         <div class="info-section">
-                            <h4>Capacités</h4>
+                            <h4>Abilities</h4>
                             <div class="abilities-container">${abilitiesHtml}</div>
                         </div>
                     </div>

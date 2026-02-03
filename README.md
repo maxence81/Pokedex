@@ -1,38 +1,30 @@
 # Pokédex
 
-A web-based Pokédex built with Vue.js and the PokéAPI.
+A dynamic web-based Pokédex that lets you explore and discover Pokémon with style. Built with JavaScript and the PokéAPI.
 
 ## What it does
 
-Browse Pokémon, search by name, filter by type. View stats, abilities, evolution chains and 3D models.
+This project pulls data from the PokéAPI and displays detailed information about any Pokémon you search for. You can browse by typing names, filter by type, and see everything from base stats to evolution chains.
 
 ### Features
 
-- Search with autocomplete
-- Filter by type
-- Stats with progress bars
-- Evolution chains
-- 3D models
-- Dark mode
+- **Search functionality** - Find Pokémon by name with autocomplete suggestions
+- **Type filtering** - Browse Pokémon by their types (Fire, Water, Electric, etc.)
+- **Detailed stats** - View HP, Attack, Defense, and more with visual progress bars
+- **Evolution chains** - See how Pokémon evolve and click to navigate between stages
+- **Multi-language names** - Pokémon names displayed in different languages
+- **3D model support** - Some Pokémon come with interactive 3D models
+- **Smooth animations** - Hover effects and transitions for a polished feel
 
 ## Project structure
 
 ```
-├── index.html
-├── js/
-│   └── app.js
-└── styles/
-    └── main.css
+├── index.html      # Main HTML file
+├── pokemon.js      # All the JavaScript logic and API calls
+└── main.css        # Styling with CSS variables and animations
 ```
 
-## Run locally
+## Technical details
 
-```bash
-python -m http.server 8080
-```
-
-## Credits
-
-- [PokéAPI](https://pokeapi.co/)
-- [Pokémon 3D API](https://pokemon-3d-api.onrender.com/)
+- Uses the [PokéAPI](https://pokeapi.co/) for all Pokémon data
 
